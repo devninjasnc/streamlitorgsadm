@@ -27,8 +27,8 @@ def pesquisar_ordens(local_instalacao, ano, den_origem):
         query += " AND ano LIKE ?"
         params.append(f"%{ano}%")
     if den_origem:
-        query += " AND den_origem = ?"  # Modificado para uma correspondência exata em vez de pesquisa com LIKE
-        params.append(den_origem)  # Não precisa de '%'
+        query += " AND den_origem = ?"
+        params.append(den_origem)
     c.execute(query, params)
     ordens = c.fetchall()
     conn.close()
@@ -61,11 +61,11 @@ nova_pasta = st.sidebar.text_input('Número da Pasta')
 nova_pagina = st.sidebar.number_input('Página', min_value=1, max_value=100, step=1)
 local_instalacao = st.sidebar.text_input('Local de Instalação')
 ano = st.sidebar.text_input('Ano')
-den_origem = st.sidebar.selectbox('Denominação de Origem', obter_denominacoes_origem())
+den_origem_input = st.sidebar.text_input('Denominação de Origem')
 
 # Adicionar os novos dados da ordem ao banco de dados quando o botão for clicado
 if st.sidebar.button('Adicionar Ordem'):
-    adicionar_ordem(nova_pasta, nova_pagina, local_instalacao, ano, den_origem)
+    adicionar_ordem(nova_pasta, nova_pagina, local_instalacao, ano, den_origem_input)
     st.sidebar.success('Ordem adicionada com sucesso!')
 
 # Adicionar controles de entrada para pesquisa de ordens
